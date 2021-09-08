@@ -28,6 +28,14 @@ client.connect(err => {
                 res.send(result.insertedCount > 0)
             })
     })
+
+    // display all news from server
+    app.get('/news', (req, res) => {
+        newsCollection.find()
+            .toArray((err, news) => {
+                res.send(news)
+            })
+    })
 });
 
 app.listen(port, () => {
