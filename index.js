@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const { MongoClient } = require('mongodb');
+const ObjectID = require('mongodb').ObjectId;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config()
@@ -34,6 +35,15 @@ client.connect(err => {
         newsCollection.find()
             .toArray((err, news) => {
                 res.send(news)
+            })
+    })
+
+    // display news details another page with dynamic route 
+    app.get('/info/:id', (req, res) => {
+        const id = ObjectID(req.params.id);
+        newsCollection.find({ _id: id })
+            .toArray((err, news) => {
+                res.send(news[0])
             })
     })
 });
