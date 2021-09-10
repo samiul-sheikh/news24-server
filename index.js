@@ -16,6 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log("database connected successfully!")
     const newsCollection = client.db("news24").collection("news");
+    const adminCollection = client.db("news24").collection("admins");
 
     app.get('/', (req, res) => {
         res.send('Welcome to News24 Server!')
@@ -44,6 +45,16 @@ client.connect(err => {
         newsCollection.find({ _id: id })
             .toArray((err, news) => {
                 res.send(news[0])
+            })
+    })
+
+    // store new admin information to server
+    app.post('/addAdmin', (req, res) => {
+        const newAdmin = req.body;
+        console.log('adding new admin: ', newAdmin)
+        adminCollection.insertOne(newAdmin)
+            .then(result => {
+                res.send(result.insertedCount > 0)
             })
     })
 });
