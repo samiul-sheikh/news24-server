@@ -16,6 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log("database connected successfully!")
     const newsCollection = client.db(`${process.env.DB_NAME}`).collection("news");
+    const topNewsCollection = client.db(`${process.env.DB_NAME}`).collection("topNews");
     const adminCollection = client.db(`${process.env.DB_NAME}`).collection("admins");
 
     app.get('/', (req, res) => {
@@ -48,6 +49,23 @@ client.connect(err => {
             })
     })
 
+    // add top news in server
+    app.post('/addTopNews', (req, res) => {
+        const topNews = req.body;
+        topNewsCollection.insertOne(topNews)
+            .then(result => {
+                res.send(result.insertedCount > 0)
+            })
+    })
+
+    // display top news from server
+    app.get('/topNews', (req, res) => {
+        topNewsCollection.find()
+            .toArray((err, topNews) => {
+                res.send(topNews)
+            })
+    })
+
     // store new admin information to server
     app.post('/addAdmin', (req, res) => {
         const newAdmin = req.body;
@@ -73,12 +91,12 @@ client.connect(err => {
             })
     })
 
-    app.get('/international', (req, res) => {
-        newsCollection.find({international: international})
-            .toArray((err, news) => {
-                res.send(news)
-            })
-    })
+    // app.get('/international', (req, res) => {
+    //     newsCollection.find({ international: international })
+    //         .toArray((err, news) => {
+    //             res.send(news)
+    //         })
+    // })
 });
 
 app.listen(process.env.PORT || port)
