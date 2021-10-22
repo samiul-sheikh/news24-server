@@ -72,6 +72,13 @@ client.connect(err => {
                 res.send(admin.length > 0);
             })
     })
+
+    app.get('/international', (req, res) => {
+        newsCollection.find({international: international})
+            .toArray((err, news) => {
+                res.send(news)
+            })
+    })
 });
 
 app.listen(port, () => {
