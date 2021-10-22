@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     console.log("database connected successfully!")
-    const newsCollection = client.db("news24").collection("news");
-    const adminCollection = client.db("news24").collection("admins");
+    const newsCollection = client.db(`${process.env.DB_NAME}`).collection("news");
+    const adminCollection = client.db(`${process.env.DB_NAME}`).collection("admins");
 
     app.get('/', (req, res) => {
         res.send('Welcome to News24 Server!')
