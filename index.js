@@ -69,13 +69,13 @@ client.connect(err => {
     // store new admin information to server
     app.post('/addAdmin', (req, res) => {
         const newAdmin = req.body;
-        console.log('adding new admin: ', newAdmin)
         adminCollection.insertOne(newAdmin)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
     })
 
+    // display all admins
     app.get('/admin', (req, res) => {
         adminCollection.find({})
             .toArray((err, documents) => {
@@ -83,6 +83,7 @@ client.connect(err => {
             })
     });
 
+    // verify admin or not
     app.post('/isAdmin', (req, res) => {
         const email = req.body.email;
         adminCollection.find({ email: email })
@@ -91,12 +92,6 @@ client.connect(err => {
             })
     })
 
-    // app.get('/international', (req, res) => {
-    //     newsCollection.find({ international: international })
-    //         .toArray((err, news) => {
-    //             res.send(news)
-    //         })
-    // })
 });
 
 app.listen(process.env.PORT || port)

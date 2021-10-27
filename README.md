@@ -19,11 +19,10 @@
 
 ---
 ### `Project Features`
-- professional looks UI design.
 - News Portal react application..
 - Users can view all types of news articles in homepage.
-- Users can register/login with Google and custom authentication to view the full article.
 - Users can views different types of news by category.
+- Users can register/login with Google and custom authentication to view the full article.
 - Route will be changed dynamically for different kinds of news.
 - An Admin can add new news, top news, new admin and manage news.
 ### `Client Side Repository`
